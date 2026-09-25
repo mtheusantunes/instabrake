@@ -6,6 +6,9 @@
    "description": "__MSG_extensionDescription__",
    "author": "Matheus Antunes Freire (@mtheusantunes)",
    "permissions": [ "storage" ],
+   "background": {
+      "service_worker": "service_worker.js"
+   },
    "action": {
       "default_icon": {
          "16": "public/ib16.png",
