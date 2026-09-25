@@ -24,6 +24,7 @@ const defaultOptions = {
 };
 
 const translate = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || "";
+const limitIconUrl = chrome.runtime.getURL("public/ib128.png");
 
 const labelsArray = Object.keys(defaultOptions);
 
@@ -319,7 +320,7 @@ async function main() {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
               `;
               feedLimitMsg.innerHTML = `
-                <div style="font-size: 32px; margin-bottom: 8px;">🛑</div>
+                <img src="${limitIconUrl}" alt="" style="display: block; width: 64px; height: 64px; margin: 0 auto 8px;">
                 <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">${translate("scrollLimitTitle")}</div>
                 <div style="font-size: 13px; color: #a8a8a8; line-height: 1.4;">
                   ${translate("scrollLimitMessage", String(followingLimit))}
@@ -420,7 +421,7 @@ async function main() {
               font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             `;
             reelsOverlay.innerHTML = `
-              <div style="font-size: 48px; margin-bottom: 16px;">🛑</div>
+              <img src="${limitIconUrl}" alt="" style="display: block; width: 96px; height: 96px; margin: 0 auto 16px;">
               <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #ffffff;">${translate("reelsLimitTitle")}</h2>
               <p style="font-size: 14px; color: #a8a8a8; max-width: 380px; line-height: 1.5; margin-bottom: 24px;">
                 ${translate("reelsLimitMessage", String(reelsLimit))}
