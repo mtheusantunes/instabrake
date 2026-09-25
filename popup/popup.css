@@ -258,14 +258,6 @@ label {
   overflow: hidden;
 }
 
-.status-message {
-  display: block;
-  min-height: 1.15rem;
-  padding-top: 0.65rem;
-  color: #86efac;
-  font-size: 0.75rem;
-}
-
 .limit-option {
   padding-right: 0.4rem;
   border-radius: 0.2rem;

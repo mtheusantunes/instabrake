@@ -17,20 +17,7 @@ const saveOptions = () => {
     }
   }
 
-  const onSet = () => {
-    const status = document.getElementById("status");
-    if (chrome.runtime.lastError) {
-      status.textContent = `Unable to save: ${chrome.runtime.lastError.message}`;
-      return;
-    }
-    status.textContent = "Saved automatically";
-    const intervalId = setInterval(() => {
-      status.textContent = "";
-      clearInterval(intervalId);
-    }, 2000);
-  };
-
-  chrome.storage.sync.set(options, onSet);
+  chrome.storage.sync.set(options);
 };
 
 const restoreOptions = () => {
