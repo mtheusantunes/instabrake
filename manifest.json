@@ -2,7 +2,7 @@
    "manifest_version": 3,
    "name": "InstaBrake - Explore & Reels Blocker",
    "version": "2.1.0",
-   "description": "InstaBrake is a modified and expanded version of the MIT-licensed project originally created by aymyo, designed to help users control social media usage",
+   "description": "Hide distracting Instagram sections and set daily limits for Reels and feed browsing.",
    "author": "Matheus Antunes Freire (@mtheusantunes)",
    "permissions": [ "storage" ],
    "action": {
