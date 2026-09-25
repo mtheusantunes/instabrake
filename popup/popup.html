@@ -50,19 +50,13 @@
             <p class="help-text" id="limits-help" hidden>
               <span data-i18n="limitsHelp">Set daily or feed limits to prevent endless scrolling.</span>
             </p>
-            <div class="limit-option d-flex align-items-center justify-content-between">
-              <label class="setting-row mb-0 flex-grow-1"><span data-i18n="limitFollowing">Limit Following feed</span><input class="switch-input" type="checkbox" id="limitFollowingPosts" /><span class="switch" aria-hidden="true"></span></label>
-              <div class="d-flex align-items-center gap-1 ps-2">
-                <input type="number" id="followingPostsLimit" min="1" max="500" class="limit-input" />
-                <span class="limit-unit" data-i18n="postsUnit">posts</span>
-              </div>
+            <div class="limit-option">
+              <label class="setting-row mb-0"><span data-i18n="limitFollowing">Limit posts on Following feed</span><input class="switch-input" type="checkbox" id="limitFollowingPosts" /><span class="switch" aria-hidden="true"></span></label>
+              <input type="number" id="followingPostsLimit" min="1" max="500" class="limit-input" />
             </div>
-            <div class="limit-option d-flex align-items-center justify-content-between mt-1">
-              <label class="setting-row mb-0 flex-grow-1"><span data-i18n="limitReels">Limit Reels watched</span><input class="switch-input" type="checkbox" id="limitReels" /><span class="switch" aria-hidden="true"></span></label>
-              <div class="d-flex align-items-center gap-1 ps-2">
-                <input type="number" id="reelsLimit" min="1" max="500" class="limit-input" />
-                <span class="limit-unit" data-i18n="videosUnit">videos</span>
-              </div>
+            <div class="limit-option">
+              <label class="setting-row mb-0"><span data-i18n="limitReels">Limit Reels watched</span><input class="switch-input" type="checkbox" id="limitReels" /><span class="switch" aria-hidden="true"></span></label>
+              <input type="number" id="reelsLimit" min="1" max="500" class="limit-input" />
             </div>
 
             <div class="section-title section-title-spaced">
