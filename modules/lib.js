@@ -1,15 +1,15 @@
 export const defaultOptions = {
-  blockReels: true,
+  blockReels: false,
   blockExplore: true,
   blockStories: false,
-  blockPosts: false,
+  blockPosts: true,
   blockFollowingPosts: false,
   limitFollowingPosts: false,
   followingPostsLimit: 10,
-  limitReels: false,
+  limitReels: true,
   reelsLimit: 10,
   blockSuggestedFollowers: true,
-  blockForYouFeed: true,
+  blockForYouFeed: false,
   blockThreads: true,
 };
 
