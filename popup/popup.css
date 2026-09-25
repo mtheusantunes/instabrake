@@ -139,6 +139,10 @@ h2 {
   gap: 0.45rem;
 }
 
+.section-title h2 {
+  margin-bottom: 0;
+}
+
 .section-title-spaced {
   padding-top: 1rem;
 }
