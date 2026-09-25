@@ -23,6 +23,8 @@ const defaultOptions = {
   blockThreads: true,
 };
 
+const translate = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || "";
+
 const labelsArray = Object.keys(defaultOptions);
 
 const selectors = {
@@ -162,7 +164,7 @@ async function main() {
     }
 
     overlay.innerHTML = `
-      <img src="${image.currentSrc || image.src}" alt="Enlarged profile picture" style="
+      <img src="${image.currentSrc || image.src}" alt="${translate("profilePictureAlt")}" style="
         display: block;
         width: min(92vw, 800px);
         max-width: 92vw;
@@ -318,9 +320,9 @@ async function main() {
               `;
               feedLimitMsg.innerHTML = `
                 <div style="font-size: 32px; margin-bottom: 8px;">🛑</div>
-                <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">Scroll limit reached</div>
+                <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">${translate("scrollLimitTitle")}</div>
                 <div style="font-size: 13px; color: #a8a8a8; line-height: 1.4;">
-                  You have reached the configured limit of <b>${followingLimit} posts</b> in the Following feed.
+                  ${translate("scrollLimitMessage", String(followingLimit))}
                 </div>
               `;
               const lastVisible = allPosts[followingLimit - 1];
@@ -419,9 +421,9 @@ async function main() {
             `;
             reelsOverlay.innerHTML = `
               <div style="font-size: 48px; margin-bottom: 16px;">🛑</div>
-              <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #ffffff;">Reels limit reached!</h2>
+              <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #ffffff;">${translate("reelsLimitTitle")}</h2>
               <p style="font-size: 14px; color: #a8a8a8; max-width: 380px; line-height: 1.5; margin-bottom: 24px;">
-                You have watched all <b>${reelsLimit} videos</b> allowed today. Take a break!
+                ${translate("reelsLimitMessage", String(reelsLimit))}
               </p>
               <a href="/" style="
                 background: #e1306c;
@@ -432,7 +434,7 @@ async function main() {
                 font-weight: 600;
                 font-size: 14px;
                 display: inline-block;
-              ">Go to home page</a>
+              ">${translate("goHome")}</a>
             `;
             document.body.appendChild(reelsOverlay);
           }

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>InstaBrake Options</title>
+    <title data-i18n="popupTitle">InstaBrake Options</title>
     <link
       rel="stylesheet"
       crossorigin="anonymous"
@@ -18,9 +18,9 @@
         <img class="brand-logo" width="34" height="34" src="../public/ib48.png" alt="InstaBrake logo" />
         <h1 class="text-instabrake m-0">InstaBrake</h1>
       </div>
-      <nav class="tabs" aria-label="Extension sections">
-        <a data-tab-target="#options" class="active" href="#">Options</a>
-        <a data-tab-target="#about" href="#">About</a>
+      <nav class="tabs" aria-label="Extension sections" data-i18n-aria-label="extensionSections">
+        <a data-tab-target="#options" class="active" href="#" data-i18n="optionsTab">Options</a>
+        <a data-tab-target="#about" href="#" data-i18n="aboutTab">About</a>
       </nav>
     </header>
 
@@ -28,88 +28,86 @@
       <section data-tab-content id="options" class="active">
         <div class="ml-2">
           <div class="section-title">
-            <h2>Hide</h2>
+            <h2 data-i18n="hideTitle">Hide</h2>
             <button class="help-button" type="button" aria-expanded="false" aria-controls="hide-help" data-help-target="#hide-help">?</button>
           </div>
           <p class="help-text" id="hide-help" hidden>
-            Hide sections you do not want to see while browsing Instagram.
+            <span data-i18n="hideHelp">Hide sections you do not want to see while browsing Instagram.</span>
           </p>
           <form class="fw-light">
-            <label class="setting-row"><span>Hide Reels page</span><input class="switch-input" type="checkbox" id="blockReels" /><span class="switch" aria-hidden="true"></span></label>
-            <label class="setting-row"><span>Hide Explore page</span><input class="switch-input" type="checkbox" id="blockExplore" /><span class="switch" aria-hidden="true"></span></label>
-            <label class="setting-row"><span>Hide Stories section</span><input class="switch-input" type="checkbox" id="blockStories" /><span class="switch" aria-hidden="true"></span></label>
-            <label class="setting-row"><span>Hide Posts section</span><input class="switch-input" type="checkbox" id="blockPosts" /><span class="switch" aria-hidden="true"></span></label>
-            <label class="setting-row"><span>Hide Following posts section</span><input class="switch-input" type="checkbox" id="blockFollowingPosts" /><span class="switch" aria-hidden="true"></span></label>
-            <label class="setting-row"><span>Hide Threads links</span><input class="switch-input" type="checkbox" id="blockThreads" /><span class="switch" aria-hidden="true"></span></label>
-            <label class="setting-row"><span>Hide Suggested followers section</span><input class="switch-input" type="checkbox" id="blockSuggestedFollowers" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hideReels">Hide Reels page</span><input class="switch-input" type="checkbox" id="blockReels" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hideExplore">Hide Explore page</span><input class="switch-input" type="checkbox" id="blockExplore" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hideStories">Hide Stories section</span><input class="switch-input" type="checkbox" id="blockStories" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hidePosts">Hide Posts section</span><input class="switch-input" type="checkbox" id="blockPosts" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hideFollowingPosts">Hide Following posts section</span><input class="switch-input" type="checkbox" id="blockFollowingPosts" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hideThreads">Hide Threads links</span><input class="switch-input" type="checkbox" id="blockThreads" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="hideSuggested">Hide Suggested followers section</span><input class="switch-input" type="checkbox" id="blockSuggestedFollowers" /><span class="switch" aria-hidden="true"></span></label>
 
             <div class="section-title section-title-spaced">
-              <h2>Limits</h2>
+              <h2 data-i18n="limitsTitle">Limits</h2>
               <button class="help-button" type="button" aria-expanded="false" aria-controls="limits-help" data-help-target="#limits-help">?</button>
             </div>
             <p class="help-text" id="limits-help" hidden>
-              Set daily or feed limits to prevent endless scrolling.
+              <span data-i18n="limitsHelp">Set daily or feed limits to prevent endless scrolling.</span>
             </p>
             <div class="limit-option d-flex align-items-center justify-content-between">
-              <label class="setting-row mb-0 flex-grow-1"><span>Limit Following feed</span><input class="switch-input" type="checkbox" id="limitFollowingPosts" /><span class="switch" aria-hidden="true"></span></label>
+              <label class="setting-row mb-0 flex-grow-1"><span data-i18n="limitFollowing">Limit Following feed</span><input class="switch-input" type="checkbox" id="limitFollowingPosts" /><span class="switch" aria-hidden="true"></span></label>
               <div class="d-flex align-items-center gap-1 ps-2">
                 <input type="number" id="followingPostsLimit" min="1" max="500" class="limit-input" />
-                <span class="limit-unit">posts</span>
+                <span class="limit-unit" data-i18n="postsUnit">posts</span>
               </div>
             </div>
             <div class="limit-option d-flex align-items-center justify-content-between mt-1">
-              <label class="setting-row mb-0 flex-grow-1"><span>Limit Reels watched</span><input class="switch-input" type="checkbox" id="limitReels" /><span class="switch" aria-hidden="true"></span></label>
+              <label class="setting-row mb-0 flex-grow-1"><span data-i18n="limitReels">Limit Reels watched</span><input class="switch-input" type="checkbox" id="limitReels" /><span class="switch" aria-hidden="true"></span></label>
               <div class="d-flex align-items-center gap-1 ps-2">
                 <input type="number" id="reelsLimit" min="1" max="500" class="limit-input" />
-                <span class="limit-unit">videos</span>
+                <span class="limit-unit" data-i18n="videosUnit">videos</span>
               </div>
             </div>
 
             <div class="section-title section-title-spaced">
-              <h2>Redirect</h2>
+              <h2 data-i18n="redirectTitle">Redirect</h2>
               <button class="help-button" type="button" aria-expanded="false" aria-controls="redirect-help" data-help-target="#redirect-help">?</button>
             </div>
             <p class="help-text" id="redirect-help" hidden>
-              Always open the Following feed instead of suggested content.
+              <span data-i18n="redirectHelp">Always open the Following feed instead of suggested content.</span>
             </p>
-            <label class="setting-row"><span>Redirect For you feed to Following</span><input class="switch-input" type="checkbox" id="blockForYouFeed" /><span class="switch" aria-hidden="true"></span></label>
+            <label class="setting-row"><span data-i18n="redirectOption">Redirect For you feed to Following</span><input class="switch-input" type="checkbox" id="blockForYouFeed" /><span class="switch" aria-hidden="true"></span></label>
           </form>
         </div>
       </section>
 
       <section data-tab-content id="about">
-        <h2>InstaBrake</h2>
+        <h2 data-i18n="aboutHeading">InstaBrake</h2>
         <p class="fw-light">
-          This extension tries to give the power back to the users to use social media for what it
-          was created for: see and follow who you want without falling into and endless black hole
-          of meaningless content.
+          <span data-i18n="aboutDescription">This extension tries to give the power back to the users to use social media for what it was created for: see and follow who you want without falling into an endless black hole of meaningless content.</span>
         </p>
-        <h2>Support us</h2>
+        <h2 data-i18n="supportTitle">Support us</h2>
         <p class="fw-light">
-          <i>InstaBrake</i> is maintained and further developed by
+          <span data-i18n="maintainedBy">InstaBrake is maintained and further developed by</span>
           <a href="https://github.com/mtheusantunes" target="_blank" rel="noopener noreferrer">
             Matheus Antunes Freire
           </a>.
-          It is derived from the original MIT-licensed project created by
+          <span data-i18n="derivedFrom">It is derived from the original MIT-licensed project created by</span>
           <a href="https://github.com/aymyo" target="_blank" rel="noopener noreferrer">aymyo</a>.
-          You can find the InstaBrake contributors
+          <span data-i18n="contributorsPrefix">You can find the InstaBrake contributors</span>
           <a
             href="https://github.com/mtheusantunes/instabrake/graphs/contributors"
             target="_blank"
             rel="noopener noreferrer"
           >
-            here
+            <span data-i18n="here">here</span>
           </a>
           ❤️
           <br />
         </p>
         <ul class="fw-light">
           <li>
-            Help to maintain it by
+            <span data-i18n="helpMaintain">Help to maintain it by</span>
           </li>
-          <li>Sharing it it!</li>
+          <li data-i18n="sharing">Sharing it!</li>
           <li>
-            Leaving a review on
+            <span data-i18n="reviewOn">Leaving a review on</span>
             <a
               href=""
               target="_blank"
@@ -118,20 +116,19 @@
             </a>
           </li>
           <li>
-            Reporting or making suggestions
+            <span data-i18n="reporting">Reporting or making suggestions</span>
             <a
               href="https://github.com/mtheusantunes/instabrake/issues"
               target="_blank"
               rel="noopener noreferrer"
             >
-              on Github
+              <span data-i18n="onGithub">on GitHub</span>
             </a>
           </li>
         </ul>
-        <h2>Privacy and conditions</h2>
+        <h2 data-i18n="privacyTitle">Privacy and conditions</h2>
         <p class="fw-light mb-0">
-          <i>InstaBrake</i> will never track you. It’s free. It only needs ‘storage’ permissions to
-          save your options.
+          <span data-i18n="privacyText">InstaBrake will never track you. It’s free. It only needs ‘storage’ permissions to save your options.</span>
         </p>
       </section>
     </main>

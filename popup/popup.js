@@ -1,5 +1,21 @@
 import { labelsArray, defaultOptions } from "../modules/lib.js";
 
+const localize = () => {
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const message = chrome.i18n.getMessage(element.dataset.i18n);
+    if (message) {
+      element.textContent = message;
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+    const message = chrome.i18n.getMessage(element.dataset.i18nAriaLabel);
+    if (message) {
+      element.setAttribute("aria-label", message);
+    }
+  });
+};
+
 // Saving and loading options from storage
 const saveOptions = () => {
   const options = {};
@@ -36,7 +52,10 @@ const restoreOptions = () => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
+document.addEventListener("DOMContentLoaded", () => {
+  localize();
+  restoreOptions();
+});
 
 document.querySelectorAll("#options input").forEach((input) => {
   input.addEventListener(input.type === "number" ? "change" : "change", saveOptions);
