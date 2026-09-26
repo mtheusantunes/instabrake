@@ -371,6 +371,10 @@ async function main() {
     return window.innerWidth >= 768;
   }
 
+  function isInstagramHomePage() {
+    return window.location.pathname === "/" && window.location.search === "";
+  }
+
   function showHomeFeedMenu(anchor) {
     closeHomeFeedMenu();
 
@@ -444,7 +448,7 @@ async function main() {
   }
 
   function setupHomeFeedMenu(body) {
-    if (window.location.pathname !== "/" || !isDesktopInterface()) {
+    if (!isInstagramHomePage() || !isDesktopInterface()) {
       closeHomeFeedMenu();
       return;
     }
@@ -455,7 +459,7 @@ async function main() {
     }
     anchor.dataset.instabrakeHomeMenuReady = "true";
     anchor.addEventListener("click", (event) => {
-      if (!isDesktopInterface()) {
+      if (!isInstagramHomePage() || !isDesktopInterface()) {
         return;
       }
       event.preventDefault();
