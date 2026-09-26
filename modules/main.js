@@ -1,30 +1,103 @@
 import { labelsArray, defaultOptions, selectors, urls, hide } from "../modules/lib.js";
 
+let extensionContextInvalidated = false;
+let activeMutationObserver = null;
+
+function handleExtensionContextError(error) {
+  const message = error instanceof Error ? error.message : String(error?.message || error);
+  if (message.includes("Extension context invalidated")) {
+    extensionContextInvalidated = true;
+    activeMutationObserver?.disconnect();
+    return true;
+  }
+  return false;
+}
+
+function getExtensionUrl(path) {
+  try {
+    return chrome.runtime.getURL(path);
+  } catch (error) {
+    if (handleExtensionContextError(error)) {
+      return "";
+    }
+    throw error;
+  }
+}
+
 try {
   const interceptorScript = document.createElement("script");
-  interceptorScript.src = chrome.runtime.getURL("interceptor.js");
+  interceptorScript.src = getExtensionUrl("interceptor.js");
+  if (!interceptorScript.src) {
+    throw new Error("InstaBrake interceptor URL is unavailable.");
+  }
   (document.head || document.documentElement).appendChild(interceptorScript);
   interceptorScript.onload = () => interceptorScript.remove();
 } catch (error) {
-  console.warn("InstaBrake interceptor load error:", error);
+  if (!extensionContextInvalidated && !handleExtensionContextError(error)) {
+    console.warn("InstaBrake interceptor load error:", error);
+  }
 }
 
-const translate = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || "";
-const limitIconUrl = chrome.runtime.getURL("public/ib128.png");
+const translate = (key, substitutions) => {
+  try {
+    return chrome.i18n.getMessage(key, substitutions) || "";
+  } catch (error) {
+    if (handleExtensionContextError(error)) {
+      return "";
+    }
+    throw error;
+  }
+};
+const limitIconUrl = getExtensionUrl("public/ib128.png");
 let directReelViewerState = null;
 
 async function main() {
-  const loadedSettings = await new Promise((resolve) => {
-    chrome.storage.sync.get(labelsArray, resolve);
-  });
+  if (extensionContextInvalidated) {
+    return;
+  }
+
+  let loadedSettings;
+  try {
+    loadedSettings = await new Promise((resolve, reject) => {
+      try {
+        chrome.storage.sync.get(labelsArray, (settings) => {
+          try {
+            const lastError = chrome.runtime.lastError;
+            if (lastError) {
+              reject(lastError);
+              return;
+            }
+            resolve(settings);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  } catch (error) {
+    if (handleExtensionContextError(error)) {
+      return;
+    }
+    throw error;
+  }
 
   if (Object.keys(loadedSettings || {}).length === 0) {
-    chrome.storage.sync.set(defaultOptions);
+    try {
+      chrome.storage.sync.set(defaultOptions);
+    } catch (error) {
+      if (handleExtensionContextError(error)) {
+        return;
+      }
+      throw error;
+    }
   }
 
   const settings = Object.keys(loadedSettings || {}).length > 0 ? loadedSettings : defaultOptions;
 
   const mutationObserver = new MutationObserver(onMutation);
+  activeMutationObserver = mutationObserver;
 
   const getVisibleDirectReelVideo = (body) => {
     if (!window.location.pathname.startsWith("/direct/")) {
@@ -393,6 +466,10 @@ async function main() {
   }
 
   function onMutation() {
+    if (extensionContextInvalidated) {
+      return;
+    }
+
     const path = window.location.pathname;
     const body = document.body;
     if (!body) {
