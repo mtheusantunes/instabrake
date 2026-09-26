@@ -37,6 +37,8 @@
   "privacyTitle": { "message": "Privacidade e condições" },
   "privacyText": { "message": "O InstaBrake nunca rastreará você. É gratuito e só precisa da permissão de armazenamento para salvar suas opções." },
   "profilePictureAlt": { "message": "Foto de perfil ampliada" },
+  "homeFollowing": { "message": "Seguindo" },
+  "homeFavorites": { "message": "Favoritos" },
   "scrollLimitTitle": { "message": "Limite de rolagem atingido" },
   "scrollLimitMessage": {
     "message": "Você atingiu o limite configurado de $COUNT$ publicações no feed Seguindo.",

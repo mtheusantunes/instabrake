@@ -274,6 +274,124 @@ async function main() {
     }, true);
   }
 
+  function getHomeLogoLink(body) {
+    const homeLinks = [...body.querySelectorAll('a[href="/"]')].filter((link) => {
+      const rect = link.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0 && rect.top < 160;
+    });
+
+    return homeLinks.find((link) => {
+      const label = link.querySelector("svg")?.getAttribute("aria-label")?.toLowerCase();
+      const title = link.querySelector("svg title")?.textContent?.toLowerCase();
+      return label === "instagram" || title === "instagram";
+    }) || homeLinks.find((link) => link.querySelector("svg"));
+  }
+
+  function closeHomeFeedMenu() {
+    document.getElementById("instabrake-home-feed-menu")?.remove();
+  }
+
+  function isDesktopInterface() {
+    return window.innerWidth >= 768;
+  }
+
+  function showHomeFeedMenu(anchor) {
+    closeHomeFeedMenu();
+
+    const menu = document.createElement("div");
+    menu.id = "instabrake-home-feed-menu";
+    menu.setAttribute("role", "dialog");
+    menu.style.cssText = `
+      position: fixed;
+      z-index: 1000000;
+      min-width: 220px;
+      padding: 8px 0;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: #262626;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    `;
+
+    const followingIcon = `
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <path clip-rule="evenodd" d="M9.874 14.438c3.5 0 6.611 1.662 8.46 4.224.945 1.308.2 3.019-1.26 3.423-1.5.416-3.973.915-7.2.915-3.224 0-5.702-.501-7.21-.92-1.465-.407-2.182-2.126-1.249-3.419 1.85-2.56 4.959-4.223 8.459-4.223Zm0 2c-2.864 0-5.367 1.359-6.837 3.394a.167.167 0 0 0-.025.167c.021.057.076.123.187.155 1.36.377 3.658.846 6.675.846 3.02 0 5.313-.466 6.666-.842.12-.033.177-.103.198-.16a.164.164 0 0 0-.025-.165c-1.47-2.036-3.975-3.395-6.839-3.395Z" fill="currentColor" fill-rule="evenodd"></path>
+        <path d="M15.467 12.064a1 1 0 0 1 1.187-.768c2.547.548 4.744 1.994 6.18 3.984a1 1 0 0 1-1.621 1.17c-1.141-1.58-2.906-2.753-4.979-3.199a1 1 0 0 1-.767-1.187Z" fill="currentColor"></path>
+        <path clip-rule="evenodd" d="M9.875 3a4.938 4.938 0 1 1 0 9.875 4.938 4.938 0 0 1 0-9.875Zm0 2a2.938 2.938 0 1 0 0 5.875 2.938 2.938 0 0 0 0-5.875Z" fill="currentColor" fill-rule="evenodd"></path>
+        <path d="M15.174 1.003a4.5 4.5 0 0 1 3.432 7.188 1 1 0 0 1-1.602-1.197 2.5 2.5 0 0 0-1.906-3.993 1 1 0 0 1 .076-1.998Z" fill="currentColor"></path>
+      </svg>`;
+    const favoritesIcon = `
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <path d="M18.18 22.51a.99.99 0 0 1-.513-.142L12 18.975l-5.667 3.393a1 1 0 0 1-1.492-1.062l1.37-6.544-4.876-4.347a.999.999 0 0 1 .536-1.737l6.554-.855 2.668-5.755a1 1 0 0 1 1.814 0l2.668 5.755 6.554.855a.999.999 0 0 1 .536 1.737l-4.876 4.347 1.37 6.544a1 1 0 0 1-.978 1.205ZM12 16.81a1 1 0 0 1 .514.142l4.22 2.528-1.021-4.873a.998.998 0 0 1 .313-.952l3.676-3.276-4.932-.644a1 1 0 0 1-.778-.57L12 4.867l-1.992 4.297a1 1 0 0 1-.779.57l-4.931.644 3.676 3.276a.998.998 0 0 1 .313.951l-1.02 4.873 4.22-2.527A1 1 0 0 1 12 16.81Z"></path>
+      </svg>`;
+
+    const options = [
+      { href: "/?variant=following", label: translate("homeFollowing"), icon: followingIcon },
+      { href: "/?variant=favorites", label: translate("homeFavorites"), icon: favoritesIcon },
+    ];
+    options.forEach(({ href, label, icon }) => {
+      const option = document.createElement("a");
+      option.href = href;
+      option.innerHTML = `${icon}<span>${label}</span>`;
+      option.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 16px;
+        color: inherit;
+        text-decoration: none;
+        font-size: 14px;
+        line-height: 22px;
+      `;
+      option.addEventListener("mouseenter", () => {
+        option.style.background = "rgba(255, 255, 255, 0.1)";
+      });
+      option.addEventListener("mouseleave", () => {
+        option.style.background = "";
+      });
+      menu.appendChild(option);
+    });
+
+    document.body.appendChild(menu);
+    const rect = anchor.getBoundingClientRect();
+    menu.style.left = `${Math.max(8, rect.left)}px`;
+    menu.style.top = `${Math.min(window.innerHeight - menu.offsetHeight - 8, rect.bottom + 8)}px`;
+
+    setTimeout(() => {
+      document.addEventListener("click", (event) => {
+        if (!menu.contains(event.target) && !anchor.contains(event.target)) {
+          closeHomeFeedMenu();
+        }
+      }, { once: true, capture: true });
+    }, 0);
+  }
+
+  function setupHomeFeedMenu(body) {
+    if (window.location.pathname !== "/" || !isDesktopInterface()) {
+      closeHomeFeedMenu();
+      return;
+    }
+
+    const anchor = getHomeLogoLink(body);
+    if (!anchor || anchor.dataset.instabrakeHomeMenuReady === "true") {
+      return;
+    }
+    anchor.dataset.instabrakeHomeMenuReady = "true";
+    anchor.addEventListener("click", (event) => {
+      if (!isDesktopInterface()) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      if (document.getElementById("instabrake-home-feed-menu")) {
+        closeHomeFeedMenu();
+      } else {
+        showHomeFeedMenu(anchor);
+      }
+    }, true);
+  }
+
   function onMutation() {
     const path = window.location.pathname;
     const body = document.body;
@@ -283,6 +401,7 @@ async function main() {
 
     dismissAppPrompt(body);
     setupProfilePhotoViewer();
+    setupHomeFeedMenu(body);
     const directReelVideo = settings.blockReels || settings.limitReels ? getVisibleDirectReelVideo(body) : null;
 
     if (directReelVideo) {

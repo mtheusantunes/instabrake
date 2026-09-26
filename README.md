@@ -35,6 +35,7 @@ InstaBrake is a Chromium extension that helps reduce distractions on Instagram b
 - Redirect the home page to the Following feed.
 - Show an enlarged, highlighted profile photo when it is pressed and held.
 - Automatically dismiss the Instagram “Use the app” prompt.
+- On the home page, turn the Instagram logo into a menu for opening the Following or Favorites feed.
 
 #### Examples
 
@@ -114,6 +115,7 @@ O InstaBrake é uma extensão para Chromium que ajuda a reduzir distrações no 
 - Redirecionar a página inicial para o feed “Seguindo”.
 - Exibir uma versão ampliada e destacada da foto de perfil ao pressioná-la e segurá-la.
 - Fechar automaticamente o aviso do Instagram “Usar o app”.
+- Na página inicial, transformar o logotipo do Instagram em um menu para abrir os feeds “Seguindo” ou “Favoritos”.
 
 #### Exemplos
 

@@ -37,6 +37,8 @@
   "privacyTitle": { "message": "Privacy and conditions" },
   "privacyText": { "message": "InstaBrake will never track you. It’s free. It only needs ‘storage’ permissions to save your options." },
   "profilePictureAlt": { "message": "Enlarged profile picture" },
+  "homeFollowing": { "message": "Following" },
+  "homeFavorites": { "message": "Favorites" },
   "scrollLimitTitle": { "message": "Scroll limit reached" },
   "scrollLimitMessage": {
     "message": "You have reached the configured limit of $COUNT$ posts in the Following feed.",
