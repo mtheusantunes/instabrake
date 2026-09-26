@@ -2,6 +2,8 @@ import { labelsArray, defaultOptions, selectors, urls, hide } from "../modules/l
 
 let extensionContextInvalidated = false;
 let activeMutationObserver = null;
+let previousLocation = `${window.location.pathname}${window.location.search}`;
+let reloadingAfterFavorites = false;
 
 function handleExtensionContextError(error) {
   const message = error instanceof Error ? error.message : String(error?.message || error);
@@ -472,6 +474,24 @@ async function main() {
     }
 
     const path = window.location.pathname;
+    const currentLocation = `${path}${window.location.search}`;
+    const previousUrl = new URL(previousLocation, window.location.origin);
+    const currentUrl = new URL(currentLocation, window.location.origin);
+    const returnedFromFavorites =
+      previousUrl.pathname === urls.base &&
+      previousUrl.searchParams.get("variant") === "favorites" &&
+      currentUrl.pathname === urls.base &&
+      !currentUrl.searchParams.get("variant");
+
+    previousLocation = currentLocation;
+    if (returnedFromFavorites) {
+      if (!reloadingAfterFavorites) {
+        reloadingAfterFavorites = true;
+        window.location.reload();
+      }
+      return;
+    }
+
     const body = document.body;
     if (!body) {
       return;
