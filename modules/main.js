@@ -48,6 +48,7 @@ const translate = (key, substitutions) => {
     throw error;
   }
 };
+
 const limitIconUrl = getExtensionUrl("public/ib128.png");
 let directReelViewerState = null;
 
@@ -406,11 +407,11 @@ async function main() {
     options.forEach(({ href, label, icon }) => {
       const option = document.createElement("a");
       option.href = href;
-      option.innerHTML = `${icon}<span>${label}</span>`;
+      option.innerHTML = `<span>${label}</span>${icon}`;
       option.style.cssText = `
         display: flex;
         align-items: center;
-        gap: 14px;
+        justify-content: space-between;
         padding: 12px 16px;
         color: inherit;
         text-decoration: none;
