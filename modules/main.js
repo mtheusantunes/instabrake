@@ -2,6 +2,7 @@ import { labelsArray, defaultOptions, selectors, urls, hide } from "../modules/l
 
 const translate = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || "";
 const limitIconUrl = chrome.runtime.getURL("public/ib128.png");
+let directReelViewerState = null;
 
 async function main() {
   const loadedSettings = await new Promise((resolve) => {
@@ -15,6 +16,70 @@ async function main() {
   const settings = Object.keys(loadedSettings).length > 0 ? loadedSettings : defaultOptions;
 
   const mutationObserver = new MutationObserver(onMutation);
+
+  const getVisibleDirectReelVideo = (body) => {
+    if (!window.location.pathname.startsWith("/direct/")) {
+      return null;
+    }
+
+    const videos = [...(body?.querySelectorAll("video") || [])];
+    return videos
+      .map((video) => ({ video, rect: video.getBoundingClientRect() }))
+      .filter(({ video, rect }) => {
+        const style = window.getComputedStyle(video);
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          rect.width >= window.innerWidth * 0.5 &&
+          rect.height >= window.innerHeight * 0.5
+        );
+      })
+      .sort((a, b) => b.rect.width * b.rect.height - a.rect.width * a.rect.height)[0]?.video || null;
+  };
+
+  const preventDirectReelScroll = (event) => {
+    if (event.type === "keydown" && event.key === "Escape") {
+      return;
+    }
+    event.preventDefault();
+  };
+
+  const lockDirectReelViewer = (video) => {
+    if (!directReelViewerState) {
+      directReelViewerState = {
+        htmlOverflow: document.documentElement.style.overflow,
+        bodyOverflow: document.body?.style.overflow || "",
+        video,
+      };
+      document.documentElement.style.overflow = "hidden";
+      if (document.body) {
+        document.body.style.overflow = "hidden";
+      }
+      window.addEventListener("wheel", preventDirectReelScroll, { capture: true, passive: false });
+      window.addEventListener("touchmove", preventDirectReelScroll, { capture: true, passive: false });
+      window.addEventListener("keydown", preventDirectReelScroll, true);
+    }
+
+    if (directReelViewerState.video !== video) {
+      directReelViewerState.video = video;
+      video?.scrollIntoView({ block: "center", inline: "nearest" });
+    }
+  };
+
+  const unlockDirectReelViewer = () => {
+    if (!directReelViewerState) {
+      return;
+    }
+
+    document.documentElement.style.overflow = directReelViewerState.htmlOverflow;
+    if (document.body) {
+      document.body.style.overflow = directReelViewerState.bodyOverflow;
+    }
+    window.removeEventListener("wheel", preventDirectReelScroll, true);
+    window.removeEventListener("touchmove", preventDirectReelScroll, true);
+    window.removeEventListener("keydown", preventDirectReelScroll, true);
+    directReelViewerState = null;
+  };
 
   function getReelsDayKey() {
     const today = new Date();
@@ -178,6 +243,13 @@ async function main() {
     const path = window.location.pathname;
     const body = document.body;
     setupProfilePhotoViewer();
+    const directReelVideo = settings.blockReels || settings.limitReels ? getVisibleDirectReelVideo(body) : null;
+
+    if (directReelVideo) {
+      lockDirectReelViewer(directReelVideo);
+    } else {
+      unlockDirectReelViewer();
+    }
   
     if(settings.blockThreads) {
       const threadLinks = body?.querySelectorAll(selectors.nav.threads);
