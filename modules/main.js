@@ -506,13 +506,16 @@ async function main() {
     if (path === urls.base) {
       const queryParams = new URLSearchParams(window.location.search);
       const isFollowingFeed = queryParams.get("variant") === "following";
+      const isFavoritesFeed = queryParams.get("variant") === "favorites";
      
       if (settings.blockStories) {
         const storyFeed = body?.querySelector(selectors.storyFeed);
         hide(storyFeed);
       }
 
-      const shouldBlockPosts = (isFollowingFeed && settings.blockFollowingPosts) || (!isFollowingFeed && settings.blockPosts);
+      const shouldBlockPosts =
+        (isFollowingFeed && settings.blockFollowingPosts) ||
+        (!isFollowingFeed && !isFavoritesFeed && settings.blockPosts);
       if (shouldBlockPosts) {
         const posts = body?.querySelector(selectors.posts);
         const postsLoader = body?.querySelector(selectors.postsLoader);
