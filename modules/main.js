@@ -251,6 +251,10 @@ async function main() {
   function onMutation() {
     const path = window.location.pathname;
     const body = document.body;
+    if (!body) {
+      return;
+    }
+
     setupProfilePhotoViewer();
     const directReelVideo = settings.blockReels || settings.limitReels ? getVisibleDirectReelVideo(body) : null;
 
