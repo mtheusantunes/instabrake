@@ -1,5 +1,14 @@
 import { labelsArray, defaultOptions, selectors, urls, hide } from "../modules/lib.js";
 
+try {
+  const interceptorScript = document.createElement("script");
+  interceptorScript.src = chrome.runtime.getURL("interceptor.js");
+  (document.head || document.documentElement).appendChild(interceptorScript);
+  interceptorScript.onload = () => interceptorScript.remove();
+} catch (error) {
+  console.warn("InstaBrake interceptor load error:", error);
+}
+
 const translate = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || "";
 const limitIconUrl = chrome.runtime.getURL("public/ib128.png");
 let directReelViewerState = null;
@@ -9,11 +18,11 @@ async function main() {
     chrome.storage.sync.get(labelsArray, resolve);
   });
 
-  if (Object.keys(loadedSettings).length === 0) {
+  if (Object.keys(loadedSettings || {}).length === 0) {
     chrome.storage.sync.set(defaultOptions);
   }
 
-  const settings = Object.keys(loadedSettings).length > 0 ? loadedSettings : defaultOptions;
+  const settings = Object.keys(loadedSettings || {}).length > 0 ? loadedSettings : defaultOptions;
 
   const mutationObserver = new MutationObserver(onMutation);
 

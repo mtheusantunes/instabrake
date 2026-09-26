@@ -45,6 +45,8 @@ InstaBrake is a Chromium extension that helps reduce distractions on Instagram b
 5. Select the root folder of this repository.
 6. Open Instagram and configure the extension through the options popup.
 
+The repository includes the generated content script bundle, so Node.js is not required for manual installation. Node.js and npm are only needed when changing the source modules and regenerating the bundle with `npm install` followed by `npm run build`.
+
 ### Configuration
 
 Open the extension popup to configure which sections should be hidden and set usage limits. Options are saved automatically.
@@ -100,6 +102,8 @@ O InstaBrake é uma extensão para Chromium que ajuda a reduzir distrações no 
 4. Clique em **Carregar sem compactação**.
 5. Selecione a pasta raiz deste repositório.
 6. Abra o Instagram e configure a extensão pelo popup de opções.
+
+O repositório já inclui o bundle gerado do content script, portanto o Node.js não é necessário para a instalação manual. Node.js e npm são necessários apenas ao alterar os módulos-fonte e gerar novamente o bundle com `npm install` e `npm run build`.
 
 ### Configuração
 
