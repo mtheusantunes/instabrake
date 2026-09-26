@@ -90,6 +90,32 @@ async function main() {
     directReelViewerState = null;
   };
 
+  const dismissAppPrompt = (body) => {
+    const appButtonLabel = translate("useAppButton").replace(/\s+/g, " ").trim().toLowerCase();
+    const appButton = [...body.querySelectorAll("button")].find((button) => {
+      const text = button.textContent?.replace(/\s+/g, " ").trim().toLowerCase();
+      return text === appButtonLabel;
+    });
+
+    if (!appButton) {
+      return;
+    }
+
+    let container = appButton.parentElement;
+    while (container && container !== body) {
+      const closeButton = container
+        .querySelector('[role="button"] svg[aria-label="Fechar"], [role="button"] svg[title="Fechar"]')
+        ?.closest('[role="button"]');
+
+      if (closeButton) {
+        closeButton.click();
+        return;
+      }
+
+      container = container.parentElement;
+    }
+  };
+
   function getReelsDayKey() {
     const today = new Date();
     const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -255,6 +281,7 @@ async function main() {
       return;
     }
 
+    dismissAppPrompt(body);
     setupProfilePhotoViewer();
     const directReelVideo = settings.blockReels || settings.limitReels ? getVisibleDirectReelVideo(body) : null;
 

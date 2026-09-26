@@ -16,6 +16,7 @@
   "hideSuggested": { "message": "Hide Suggested followers section" },
   "limitsTitle": { "message": "Limits" },
   "limitsHelp": { "message": "Set daily or feed limits to prevent endless scrolling." },
+  "useAppButton": { "message": "Use the app" },
   "limitFollowing": { "message": "Limit posts on Following feed" },
   "limitReels": { "message": "Limit Reels watched" },
   "redirectTitle": { "message": "Redirect" },

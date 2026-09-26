@@ -16,6 +16,7 @@
   "hideSuggested": { "message": "Ocultar sugestões de seguidores" },
   "limitsTitle": { "message": "Limites" },
   "limitsHelp": { "message": "Defina limites diários e evite a rolagem infinita." },
+  "useAppButton": { "message": "Usar o app" },
   "limitFollowing": { "message": "Limitar publicações no feed \"Seguindo\"" },
   "limitReels": { "message": "Limitar Reels assistidos" },
   "redirectTitle": { "message": "Redirecionar" },
